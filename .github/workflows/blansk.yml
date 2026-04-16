@@ -1,0 +1,28 @@
+name: 24-7 Codespace Keep Alive
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # গিটহাব প্রতি ৫ মিনিট পর পর অটোমেটিক এই কাজ শুরু করবে
+  workflow_dispatch:       # আপনি চাইলে নিজেও বাটন টিপে রান করতে পারবেন
+
+jobs:
+  keep_alive_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Codespace Every Minute
+        run: |
+          # ৫ মিনিটের জন্য একটি লুপ যা প্রতি ১ মিনিটে কোডস্পেসকে নক করবে
+          for i in {1..5}
+          do
+            echo "Attempt $i: Pinging Codespace to keep it awake..."
+            # আপনার কোডস্পেসের সঠিক লিঙ্কটি নিচে দেওয়া হয়েছে
+            curl -I https://studious-bassoon-5gwwvwqjwrgjh7x7v.github.dev/
+            
+            if [ $i -lt 5 ]; then
+              echo "Waiting 60 seconds for next ping..."
+              sleep 60
+            fi
+          done
+      
+      - name: Log Status
+        run: echo "Last ping sent at $(date)"
