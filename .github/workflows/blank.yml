@@ -1,0 +1,20 @@
+name: Keep Codespace Alive1
+on:
+  schedule:
+    - cron: '*/5 * * * *' # গিটহাবের নিয়ম অনুযায়ী সর্বনিম্ন ৫ মিনিট
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping every minute for 5 minutes
+        run: |
+          for i in {1..5}
+          do
+            echo "Attempt $i: Pinging Codespace..."
+            curl -I https://studious-bassoon-5gwwvwqjwrgjh7x7v.github.dev/
+            if [ $i -lt 5 ]; then
+              sleep 60 # ৬০ সেকেন্ড বা ১ মিনিট অপেক্ষা
+            fi
+          done
