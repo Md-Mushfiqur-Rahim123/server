@@ -1,0 +1,12 @@
+name: Keep Codespace Alive
+on:
+  schedule:
+    - cron: '*/20 * * * *' # প্রতি ২০ মিনিটে রান করবে
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Codespace
+        run: |
+          curl -I https://studious-bassoon-5gwwvwqjwrgjh7x7v.github.dev/
